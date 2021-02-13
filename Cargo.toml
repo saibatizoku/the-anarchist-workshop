@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
 description = "This is a a bunch of code put together in order to run things at workshops, where people work and make stuff."
 edition = "2018"
-license = "MIT OR Apache-2.0"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
