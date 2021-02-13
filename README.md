@@ -21,12 +21,12 @@ and some time to spend on them.
 For now, the prototype of a Workshop is in the works, and we want to keep track
 of a few things with the computer:
 
-* [  ] A registry of the tools that we have, with description of what they are
+* [ ] A registry of the tools that we have, with description of what they are
        good for (maybe by using tags and categories?), and a line or two about
        their location.
-* [  ] A registry of raw material, the dimensions it has in storage, also a
+* [ ] A registry of raw material, the dimensions it has in storage, also a
        description of what it is good for (also tags & categories?)
-* [  ] Etc.
+* [ ] Etc.
 
 ## Motivation
 
