@@ -5,9 +5,11 @@ This is a a bunch of code put together in order to run things at workshops.
 As in, places where people work. Workshops.
 
 The end goal is to have some Free Open-Source Software which can be installed
-relatively easy by Rust developers, which can configure/extend/modify pleasantly
-with good ol' Rust code, and install it on a computer from someone's grandparent
-and who has recently wanted to open a workshop for making grandparent-like goodies.
+relatively easily on a computer, and be helpful from the start when running.
+
+It should also be configurable, and people should be able to modify it as they
+please. Make it do nicer things, or just do things a bit differently because
+tastes are different.
 
 It should be intuitive. Whatever that means.
 
@@ -15,6 +17,16 @@ It should be intuitive. Whatever that means.
 
 This project is in the earliest of it's development. We've only got a few ideas
 and some time to spend on them.
+
+For now, the prototype of a Workshop is in the works, and we want to keep track
+of a few things with the computer:
+
+* [  ] A registry of the tools that we have, with description of what they are
+       good for (maybe by using tags and categories?), and a line or two about
+       their location.
+* [  ] A registry of raw material, the dimensions it has in storage, also a
+       description of what it is good for (also tags & categories?)
+* [  ] Etc.
 
 ## Motivation
 
