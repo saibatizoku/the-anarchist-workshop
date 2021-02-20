@@ -32,6 +32,8 @@
 //! Yes, from reading his book. It's good, and it's licensed with Creative Commons over at the
 //! [lostartpress.com](https://lostartpress.com), it's worth taking the time to look for it there, or somewhere in the
 //! [blog.lostartpress.com](https://blog.lostartpress.com).
+#[path = "the-calendar.rs"]
+pub mod the_calendar;
 
 /// TheShop
 #[derive(Default, Debug, PartialEq)]
