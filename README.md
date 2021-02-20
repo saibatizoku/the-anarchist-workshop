@@ -7,31 +7,28 @@ As in, places where people work. Workshops.
 The end goal is to have some Free Open-Source Software which can be installed
 relatively easily on a computer, and be helpful from the start when running.
 
-It should also be configurable, and people should be able to modify it as they
-please. Make it do nicer things, or just do things a bit differently because
-tastes are different.
+## Using
 
-It should be intuitive. Whatever that means.
+To use as a dependency, add the crate from source at github (for  now):
+```toml
+[dependencies]
+the-archist-workshop = { git = "https://github.com/saibatizoku/the-anarchist-workshop.git" }
+```
 
-## State of The Code
+To clone the git repository from source at github:
+```sh
+git clone https://github.com/saibatizoku/the-anarchist-workshop.git
+cd the-anarchist-workshop
+```
 
-This project is in the earliest of it's development. We've only got a few ideas
-and some time to spend on them.
+To push code to the project, fork the project from github, add a reasonably named branch,
+create a pull request. Simplicity and one-thing-at-a-time-edness is greatly appreciated. Play
+nice, do your thing.
 
-For now, the prototype of a Workshop is in the works, and we want to keep track
-of a few things with the computer:
-
-* [ ] A registry of the tools that we have, with description of what they are
-       good for (maybe by using tags and categories?), and a line or two about
-       their location.
-* [ ] A registry of raw material, the dimensions it has in storage, also a
-       description of what it is good for (also tags & categories?)
-* [ ] Etc.
-
-## Motivation
+## Motivation And Anarchical Theming
 
 The title is inspired by the work of one Christopher M. Schwarz, well-known woodworker,
 bookwriter, publisher, etc. By reading his book about building his design for "The Anarchist Workbench".
 Yes, from reading his book. It's good, and it's licensed with Creative Commons over at the
-lostartpress.com, it's worth taking the time to look for it there, or somewhere in the
-blog.lostartpress.com.
+[lostartpress.com](https://lostartpress.com), it's worth taking the time to look for it there, or somewhere in the
+[blog.lostartpress.com](https://blog.lostartpress.com).
