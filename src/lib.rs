@@ -38,6 +38,9 @@ pub mod the_calendar;
 use crate::the_calendar::ShopCalendars;
 
 /// TheShop
+///
+/// Our struct is your struct, we keep everything public at this level.
+/// Hide your privates elsewhere.
 #[derive(Default, Debug, PartialEq)]
 pub struct TheShop {
     pub calendars: ShopCalendars,
