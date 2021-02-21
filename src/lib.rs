@@ -35,9 +35,14 @@
 #[path = "the-calendar.rs"]
 pub mod the_calendar;
 
+use crate::the_calendar::{CalendarPost, TheCalendar};
+use std::collections::HashMap;
+
 /// TheShop
 #[derive(Default, Debug, PartialEq)]
-pub struct TheShop {}
+pub struct TheShop {
+    calendars: HashMap<String, TheCalendar<CalendarPost>>,
+}
 
 #[cfg(test)]
 mod tests {
