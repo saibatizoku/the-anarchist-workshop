@@ -8,38 +8,39 @@
 use chrono::prelude::{Date, Datelike, TimeZone, Utc};
 use std::collections::HashMap;
 
-/// TheCalendar
-#[derive(Default, Debug, PartialEq)]
-pub struct TheCalendar<T> {
-    /// We are a bit shy of showing readers that we are
-    /// using generics without actually knowing what we are
-    /// doing _YET_, so, we hide calendar_posts and expose some methods
-    /// below.
-    calendar_posts: AListOfPosts<T>,
+/// The Calendar
+///
+/// We are a bit shy of showing readers that we are
+/// using generics without actually knowing what we are
+/// doing yet, so, we hide calendar_things and expose some methods
+/// below.
+#[derive(Clone, Default, Debug, PartialEq)]
+pub struct TheCalendar<THING> {
+    calendar_things: AListOfThings<THING>,
 }
 
 impl<T> TheCalendar<T> {
-    /// Tell how many calendar posts this calendar has.
-    pub fn total_posts_count(&self) -> usize {
-        self.calendar_posts.len()
+    /// Tell how many calendar things this calendar has.
+    pub fn total_things(&self) -> usize {
+        self.calendar_things.len()
     }
 }
 
-/// `AListOfPosts` is a wrapper for  `Vec<T>`, where the generic type `T` is anything which
+/// `AListOfThings` is a wrapper for  `Vec<T>`, where the generic type `T` is anything which
 /// needs to derive the same traits as this type.
 #[derive(Clone, Default, Debug, PartialEq)]
-struct AListOfPosts<T> {
-    pub list_of_posts: Vec<T>,
+struct AListOfThings<T> {
+    pub list_of_things: Vec<T>,
 }
 
-impl<T> AListOfPosts<T> {
+impl<T> AListOfThings<T> {
     fn len(&self) -> usize {
-        self.list_of_posts.len()
+        self.list_of_things.len()
     }
 }
 
-/// CalendarPost
-#[derive(Debug, PartialEq)]
+/// A Calendar Post can be used as a `THING` that goes into a Calendar.
+#[derive(Clone, Debug, PartialEq)]
 pub struct CalendarPost {
     pub date: Date<Utc>,
     pub text: String,
@@ -83,7 +84,10 @@ impl std::fmt::Display for CalendarPost {
 
 /// A type to hold uniquely named calendars. Sooner or later, we'll
 /// bury the hashmap inside, for now, we're prototyping.
-pub type ShopCalendars = HashMap<String, TheCalendar<CalendarPost>>;
+#[derive(Clone, Default, Debug, PartialEq)]
+pub struct CalendarCollection<T: Clone> {
+    pub calendars: HashMap<String, TheCalendar<T>>,
+}
 
 #[cfg(test)]
 mod tests {
@@ -102,9 +106,9 @@ mod tests {
     }
 
     #[test]
-    fn the_calendar_has_empty_count_of_events_by_default() {
+    fn the_calendar_has_empty_count_of_things_by_default() {
         let calendar: TheCalendar<()> = Default::default();
-        assert_eq!(calendar.total_posts_count(), 0);
+        assert_eq!(calendar.total_things(), 0);
     }
 
     #[test]
@@ -157,13 +161,34 @@ mod tests {
     fn a_calendar_with_two_posts() {
         let five_days_from_now = Utc::now().date() + Duration::days(5);
 
-        let list_of_posts = vec![
+        let list_of_things = vec![
             CalendarPost::new("Calendar begins"),
             CalendarPost::new_with_date("Calendar continues", five_days_from_now),
         ];
         let calendar = TheCalendar {
-            calendar_posts: AListOfPosts { list_of_posts },
+            calendar_things: AListOfThings { list_of_things },
         };
-        assert_eq!(calendar.total_posts_count(), 2);
+        assert_eq!(calendar.total_things(), 2);
+    }
+
+    #[test]
+    #[ignore]
+    fn a_calendar_collection_is_a_hash_map_() {
+        const CALENDAR_NAME: &str = "2021 Stuff";
+        let mut collection: CalendarCollection<CalendarPost> = CalendarCollection::default();
+        // When someting is new, `insert` returns None
+        assert_eq!(
+            collection
+                .calendars
+                .insert(CALENDAR_NAME.to_string(), Default::default()),
+            None
+        );
+        // When someting already exists, `insert` returns `Some(replaced)`
+        assert!(collection
+            .calendars
+            .insert(CALENDAR_NAME.to_string(), Default::default())
+            .is_some());
+
+        assert!(collection.calendars.contains_key(CALENDAR_NAME));
     }
 }

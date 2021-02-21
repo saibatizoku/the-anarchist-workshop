@@ -35,17 +35,13 @@
 #[path = "the-calendar.rs"]
 pub mod the_calendar;
 
-use crate::the_calendar::ShopCalendars;
-
-/// TheShop
+/// TheShop. Doesn't do anything yet.
 ///
 /// Our struct is your struct, we keep everything public at this level.
 /// Hide your privates elsewhere. Sometime in the future, these will
 /// be behind feature attributes, but for now, consider this a prototype.
 #[derive(Default, Debug, PartialEq)]
-pub struct TheShop {
-    pub calendars: ShopCalendars,
-}
+pub struct TheShop {}
 
 #[cfg(test)]
 mod tests {
@@ -54,16 +50,5 @@ mod tests {
     #[test]
     fn the_shop_should_implement_default_n_debug_n_partial_eq() {
         assert_eq!(TheShop::default(), TheShop::default());
-    }
-
-    #[test]
-    fn the_shop_adds_a_new_calendar() {
-        const CALENDAR_NAME: &str = "2021 Stuff";
-        let mut shop = TheShop::default();
-        let added = shop
-            .calendars
-            .insert(CALENDAR_NAME.to_string(), Default::default());
-        assert_eq!(added, None);
-        assert!(shop.calendars.contains_key(CALENDAR_NAME));
     }
 }
