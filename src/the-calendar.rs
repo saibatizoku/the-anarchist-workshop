@@ -11,24 +11,30 @@ use std::collections::HashMap;
 /// TheCalendar
 #[derive(Default, Debug, PartialEq)]
 pub struct TheCalendar<T> {
-    all_posts: AListOfPosts<T>,
+    /// We are a bit shy of showing readers that we are
+    /// using generics without actually knowing what we are
+    /// doing _YET_, so, we hide calendar_posts and expose some methods
+    /// below.
+    calendar_posts: AListOfPosts<T>,
 }
 
 impl<T> TheCalendar<T> {
+    /// Tell how many calendar posts this calendar has.
     pub fn total_posts_count(&self) -> usize {
-        self.all_posts.len()
+        self.calendar_posts.len()
     }
 }
 
-/// AListOfPosts
+/// `AListOfPosts` is a wrapper for  `Vec<T>`, where the generic type `T` is anything which
+/// needs to derive the same traits as this type.
 #[derive(Clone, Default, Debug, PartialEq)]
 struct AListOfPosts<T> {
-    inner: Vec<T>,
+    pub list_of_posts: Vec<T>,
 }
 
 impl<T> AListOfPosts<T> {
     fn len(&self) -> usize {
-        self.inner.len()
+        self.list_of_posts.len()
     }
 }
 
@@ -36,13 +42,42 @@ impl<T> AListOfPosts<T> {
 #[derive(Debug, PartialEq)]
 pub struct CalendarPost {
     pub date: Date<Utc>,
+    pub text: String,
+}
+
+impl CalendarPost {
+    pub fn new(text: &str) -> Self {
+        CalendarPost {
+            date: Utc::now().date(),
+            text: text.to_string(),
+        }
+    }
+
+    pub fn new_with_date(text: &str, date: Date<Utc>) -> Self {
+        CalendarPost {
+            date,
+            text: text.to_string(),
+        }
+    }
+
+    pub fn new_with_ymd(text: &str, year: i32, month: u32, day: u32) -> Self {
+        CalendarPost {
+            date: Utc.ymd(year, month, day),
+            text: text.to_string(),
+        }
+    }
 }
 
 impl Default for CalendarPost {
     fn default() -> Self {
-        CalendarPost {
-            date: Utc::now().date(),
-        }
+        CalendarPost::new("")
+    }
+}
+
+impl std::fmt::Display for CalendarPost {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let (year, month, day) = (self.date.year(), self.date.month(), self.date.day());
+        write!(f, "{}-{:0>2}-{:0>2}: {}", year, month, day, self.text)
     }
 }
 
