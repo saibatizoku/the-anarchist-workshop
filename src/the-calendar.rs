@@ -10,13 +10,11 @@ use std::collections::HashMap;
 
 /// The Calendar
 ///
-/// We are a bit shy of showing readers that we are
-/// using generics without actually knowing what we are
-/// doing yet, so, we hide calendar_things and expose some methods
-/// below.
+/// A type that holds a list inside a `Vec<THING>`, where
+/// `THING` is anything that compiles (i.e. derives `Clone`, `Default`, etc...)
 #[derive(Clone, Default, Debug, PartialEq)]
 pub struct TheCalendar<THING> {
-    calendar_things: AListOfThings<THING>,
+    pub calendar_things: AListOfThings<THING>,
 }
 
 impl<T> TheCalendar<T> {
@@ -29,12 +27,12 @@ impl<T> TheCalendar<T> {
 /// `AListOfThings` is a wrapper for  `Vec<T>`, where the generic type `T` is anything which
 /// needs to derive the same traits as this type.
 #[derive(Clone, Default, Debug, PartialEq)]
-struct AListOfThings<T> {
+pub struct AListOfThings<T> {
     pub list_of_things: Vec<T>,
 }
 
 impl<T> AListOfThings<T> {
-    fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         self.list_of_things.len()
     }
 }
@@ -172,7 +170,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn a_calendar_collection_is_a_hash_map_() {
         const CALENDAR_NAME: &str = "2021 Stuff";
         let mut collection: CalendarCollection<CalendarPost> = CalendarCollection::default();
