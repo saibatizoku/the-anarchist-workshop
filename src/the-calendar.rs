@@ -6,6 +6,7 @@
 //!
 //! At any given time, there can be many calendars around The Shop.
 use chrono::prelude::{Date, Utc};
+use std::collections::HashMap;
 
 /// TheCalendar
 #[derive(Default, Debug, PartialEq)]
@@ -44,6 +45,10 @@ impl Default for CalendarPost {
         }
     }
 }
+
+/// A type to hold uniquely named calendars. Sooner or later, we'll
+/// bury the hashmap inside, for now, we're prototyping.
+pub type ShopCalendars = HashMap<String, TheCalendar<CalendarPost>>;
 
 #[cfg(test)]
 mod tests {
