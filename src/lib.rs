@@ -36,6 +36,8 @@
 #[path = "the-calendar.rs"]
 pub mod the_calendar;
 
+#[path = "the-people-registry.rs"]
+pub mod the_people_registry;
 
 #[path = "the-shop.rs"]
 pub mod the_shop_system;
