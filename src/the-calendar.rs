@@ -40,15 +40,19 @@ impl<T> AListOfThings<T> {
 /// A Calendar Post can be used as a `THING` that goes into a Calendar.
 #[derive(Clone, Debug, PartialEq)]
 pub struct CalendarPost {
+    /// The date this is posted on.
     pub date: Date<Utc>,
+    /// The text that is posted.
     pub text: String,
 }
 
 impl CalendarPost {
+    /// Create a new calendar post with today's date.
     pub fn new(text: &str) -> Self {
         CalendarPost::new_with_date(text, Utc::now().date())
     }
 
+    /// Create a new calendar post with some date.
     pub fn new_with_date(text: &str, date: Date<Utc>) -> Self {
         CalendarPost {
             date,
@@ -56,6 +60,7 @@ impl CalendarPost {
         }
     }
 
+    /// Create a new calendar post with some `year`, `month`, and `day`.
     pub fn new_with_ymd(text: &str, year: i32, month: u32, day: u32) -> Self {
         CalendarPost::new_with_date(text, Utc.ymd(year, month, day))
     }
