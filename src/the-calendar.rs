@@ -46,10 +46,7 @@ pub struct CalendarPost {
 
 impl CalendarPost {
     pub fn new(text: &str) -> Self {
-        CalendarPost {
-            date: Utc::now().date(),
-            text: text.to_string(),
-        }
+        CalendarPost::new_with_date(text, Utc::now().date())
     }
 
     pub fn new_with_date(text: &str, date: Date<Utc>) -> Self {
@@ -60,10 +57,7 @@ impl CalendarPost {
     }
 
     pub fn new_with_ymd(text: &str, year: i32, month: u32, day: u32) -> Self {
-        CalendarPost {
-            date: Utc.ymd(year, month, day),
-            text: text.to_string(),
-        }
+        CalendarPost::new_with_date(text, Utc.ymd(year, month, day))
     }
 }
 
@@ -157,16 +151,26 @@ mod tests {
 
     #[test]
     fn a_calendar_with_two_posts() {
-        let five_days_from_now = Utc::now().date() + Duration::days(5);
-
-        let list_of_things = vec![
-            CalendarPost::new("Calendar begins"),
-            CalendarPost::new_with_date("Calendar continues", five_days_from_now),
-        ];
         let calendar = TheCalendar {
-            calendar_things: AListOfThings { list_of_things },
+            calendar_things: AListOfThings {
+                list_of_things: vec![
+                    CalendarPost::new("Calendar begins"),
+                    CalendarPost::new_with_date(
+                        "Calendar continues",
+                        Utc::now().date() + Duration::days(5),
+                    ),
+                ],
+            },
         };
         assert_eq!(calendar.total_things(), 2);
+        assert_eq!(
+            calendar.calendar_things.list_of_things[0].text,
+            "Calendar begins"
+        );
+        assert_eq!(
+            calendar.calendar_things.list_of_things[1].text,
+            "Calendar continues"
+        );
     }
 
     #[test]
