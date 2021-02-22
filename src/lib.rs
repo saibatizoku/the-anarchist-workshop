@@ -32,23 +32,10 @@
 //! Yes, from reading his book. It's good, and it's licensed with Creative Commons over at the
 //! [lostartpress.com](https://lostartpress.com), it's worth taking the time to look for it there, or somewhere in the
 //! [blog.lostartpress.com](https://blog.lostartpress.com).
+
 #[path = "the-calendar.rs"]
 pub mod the_calendar;
 
-/// TheShop. Doesn't do anything yet.
-///
-/// Our struct is your struct, we keep everything public at this level.
-/// Hide your privates elsewhere. Sometime in the future, these will
-/// be behind feature attributes, but for now, consider this a prototype.
-#[derive(Default, Debug, PartialEq)]
-pub struct TheShop {}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn the_shop_should_implement_default_n_debug_n_partial_eq() {
-        assert_eq!(TheShop::default(), TheShop::default());
-    }
-}
+#[path = "the-shop.rs"]
+pub mod the_shop_system;
