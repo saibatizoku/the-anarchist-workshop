@@ -10,30 +10,18 @@ use std::collections::HashMap;
 
 /// The Calendar
 ///
-/// A type that holds a list inside a `Vec<THING>`, where
-/// `THING` is anything that compiles (i.e. derives `Clone`, `Default`, etc...)
 #[derive(Clone, Default, Debug, PartialEq)]
-pub struct TheCalendar<THING> {
-    pub calendar_things: AListOfThings<THING>,
+pub struct TheCalendar<KEY: PartialEq + Eq + std::hash::Hash, THING> {
+    pub things: HashMap<KEY, THING>,
 }
 
-impl<T> TheCalendar<T> {
+impl<K, T> TheCalendar<K, T>
+where
+    K: PartialEq + Eq + std::hash::Hash,
+{
     /// Tell how many calendar things this calendar has.
     pub fn total_things(&self) -> usize {
-        self.calendar_things.len()
-    }
-}
-
-/// `AListOfThings` is a wrapper for  `Vec<T>`, where the generic type `T` is anything which
-/// needs to derive the same traits as this type.
-#[derive(Clone, Default, Debug, PartialEq)]
-pub struct AListOfThings<T> {
-    pub list_of_things: Vec<T>,
-}
-
-impl<T> AListOfThings<T> {
-    pub fn len(&self) -> usize {
-        self.list_of_things.len()
+        self.things.len()
     }
 }
 
@@ -79,13 +67,6 @@ impl std::fmt::Display for CalendarPost {
     }
 }
 
-/// A type to hold uniquely named calendars. Sooner or later, we'll
-/// bury the hashmap inside, for now, we're prototyping.
-#[derive(Clone, Default, Debug, PartialEq)]
-pub struct CalendarCollection<T: Clone> {
-    pub calendars: HashMap<String, TheCalendar<T>>,
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -99,12 +80,15 @@ mod tests {
 
     #[test]
     fn the_calendar_should_implement_default_n_debug_n_partial_eq() {
-        assert_eq!(TheCalendar::<()>::default(), TheCalendar::<()>::default());
+        assert_eq!(
+            TheCalendar::<(), ()>::default(),
+            TheCalendar::<(), ()>::default()
+        );
     }
 
     #[test]
     fn the_calendar_has_empty_count_of_things_by_default() {
-        let calendar: TheCalendar<()> = Default::default();
+        let calendar: TheCalendar<(), ()> = Default::default();
         assert_eq!(calendar.total_things(), 0);
     }
 
@@ -155,46 +139,48 @@ mod tests {
     }
 
     #[test]
-    fn a_calendar_with_two_posts() {
-        let calendar = TheCalendar {
-            calendar_things: AListOfThings {
-                list_of_things: vec![
-                    CalendarPost::new("Calendar begins"),
-                    CalendarPost::new_with_date(
-                        "Calendar continues",
-                        Utc::now().date() + Duration::days(5),
-                    ),
-                ],
-            },
-        };
-        assert_eq!(calendar.total_things(), 2);
-        assert_eq!(
-            calendar.calendar_things.list_of_things[0].text,
-            "Calendar begins"
-        );
-        assert_eq!(
-            calendar.calendar_things.list_of_things[1].text,
-            "Calendar continues"
-        );
-    }
-
-    #[test]
-    fn a_calendar_collection_is_a_hash_map_() {
-        const CALENDAR_NAME: &str = "2021 Stuff";
-        let mut collection: CalendarCollection<CalendarPost> = CalendarCollection::default();
+    fn a_hash_map_of_calendar_posts() {
+        const POST_TITLE: &str = "2021 Stuff";
+        let mut collection: TheCalendar<String, CalendarPost> = TheCalendar::default();
         // When someting is new, `insert` returns None
         assert_eq!(
             collection
-                .calendars
-                .insert(CALENDAR_NAME.to_string(), Default::default()),
+                .things
+                .insert(POST_TITLE.to_string(), Default::default()),
             None
         );
         // When someting already exists, `insert` returns `Some(replaced)`
         assert!(collection
-            .calendars
-            .insert(CALENDAR_NAME.to_string(), Default::default())
+            .things
+            .insert(POST_TITLE.to_string(), Default::default())
             .is_some());
 
-        assert!(collection.calendars.contains_key(CALENDAR_NAME));
+        assert!(collection.things.contains_key(POST_TITLE));
+    }
+
+    #[test]
+    fn a_hash_map_of_dates_for_keys_and_a_vec_of_strings_for_values() {
+        // we need to our KEY type to impl Default
+        #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+        struct DateKey(Date<Utc>);
+        impl Default for DateKey {
+            fn default() -> Self {
+                DateKey(Utc::now().date())
+            }
+        }
+        let today = DateKey(Utc::now().date());
+        let five_days_from_now = DateKey(Utc::now().date() + Duration::days(5));
+
+        let mut collection: TheCalendar<DateKey, Vec<String>> = TheCalendar::default();
+        // When someting is new, `insert` returns None
+        assert_eq!(collection.things.insert(today, Default::default()), None);
+        // When someting already exists, `insert` returns `Some(replaced)`
+        assert!(collection
+            .things
+            .insert(five_days_from_now, Default::default())
+            .is_none());
+
+        assert!(collection.things.contains_key(&today));
+        assert!(collection.things.contains_key(&five_days_from_now));
     }
 }
