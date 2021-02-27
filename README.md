@@ -55,7 +55,7 @@ Another way to run the command-line interface is to _install_ it on your system.
 
 For this, you can go to the directory where you cloned the code, and type:
 
-`cargo install --path .`
+`cargo install --path ./the-anarchist-workshop-command-line-interface`
 
 When you install the code this way, an executable is built and put into your `$PATH`, usually
 in the `$HOME/.cargo/bin` directory. Might be different for you.

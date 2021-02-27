@@ -1,0 +1,14 @@
+[package]
+name = "taw"
+version = "0.1.0"
+authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "taw"
+path = "./src/main.rs"
+
+[dependencies]
+clap = { version = "~2.33" }
+the-anarchist-workshop = { path = "../" }
