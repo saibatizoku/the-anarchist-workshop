@@ -37,14 +37,14 @@ then you can build it and run it locally:
 ```
 git clone ...
 cd ...
-cargo run -- --help
+cargo run --manifest-path ./the-anarchist-workshop-command-line-interface/Cargo.toml -- --help
 ```
 
 Then, when the code is updated upstream, you can type something like this:
 
 ```
 git pull
-cargo run -- --help
+cargo run --manifest-path ./the-anarchist-workshop-command-line-interface/Cargo.toml -- --help
 ```
 
 This way, the executable gets built again, incorporating the new code.
