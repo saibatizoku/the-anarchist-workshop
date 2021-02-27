@@ -55,11 +55,7 @@ Another way to run the command-line interface is to _install_ it on your system.
 
 For this, you can go to the directory where you cloned the code, and type:
 
-`cargo install --force`
-
-The `--force` part is overkill, you only need to do it when you want the
-rebuild the executable, and this is usually after `git pull` commands. We think using the `--force`
-parameter always is better than never. Maybe we are wrong. You decide for yourself.
+`cargo install --path .`
 
 When you install the code this way, an executable is built and put into your `$PATH`, usually
 in the `$HOME/.cargo/bin` directory. Might be different for you.
