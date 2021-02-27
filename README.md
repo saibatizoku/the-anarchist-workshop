@@ -7,7 +7,7 @@ As in, places where people work. Workshops.
 The end goal is to have some Free Open-Source Software which can be installed
 relatively easily on a computer, and be helpful from the start when running.
 
-## Using
+## Grabbing the code
 
 To use as a dependency, add the crate from source at github (for  now):
 ```toml
@@ -21,9 +21,56 @@ git clone https://github.com/saibatizoku/the-anarchist-workshop.git
 cd the-anarchist-workshop
 ```
 
+### Want to contribute?
+
 To push code to the project, fork the project from github, add a reasonably named branch,
 create a pull request. Simplicity and one-thing-at-a-time-edness is greatly appreciated. Play
 nice, do your thing.
+
+## Using the code
+
+To start, you can run the anarchist workshop's command-line interface. We call it `twa`.
+
+Since we're in prototype mode, the suggested way to run it is to grab the code from github, and
+then you can build it and run it locally:
+
+```
+git clone ...
+cd ...
+cargo run -- --help
+```
+
+Then, when the code is updated upstream, you can type something like this:
+
+```
+git pull
+cargo run -- --help
+```
+
+This way, the executable gets built again, incorporating the new code.
+
+### Ideally
+
+Another way to run the command-line interface is to _install_ it on your system.
+
+For this, you can go to the directory where you cloned the code, and type:
+
+`cargo install --force`
+
+The `--force` part is overkill, you only need to do it when you want the
+rebuild the executable, and this is usually after `git pull` commands. We think using the `--force`
+parameter always is better than never. Maybe we are wrong. You decide for yourself.
+
+When you install the code this way, an executable is built and put into your `$PATH`, usually
+in the `$HOME/.cargo/bin` directory. Might be different for you.
+
+And, the cool thing about this, is that you get to call it from the terminal like this:
+
+```
+taw --help
+```
+
+which should show you the usage and a list of available commands, options, etc.
 
 ## Motivation And Anarchical Theming
 

@@ -1,12 +1,22 @@
 [package]
-name = "the-anarchist-workshop"
+name = "taw"
 version = "0.1.0"
 authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
-description = "This is a a bunch of code put together in order to run things at workshops, where people work and make stuff."
+description = "The Anarchist Workshop. This is a a bunch of code put together in order to run things at workshops, where people work and make stuff."
 edition = "2018"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]]
+name = "taw"
+path = "./src/main.rs"
+required-features = ["command-line-interface"]
+
+[features]
+default = ["command-line-interface"]
+command-line-interface = ["clap"]
+
 [dependencies]
 chrono = { version = "0.4" }
+clap = { version = "~2.33", optional = true }
