@@ -29,7 +29,7 @@ nice, do your thing.
 
 ## Using the code
 
-To start, you can run the anarchist workshop's command-line interface. We call it `twa`.
+To start, you can run the anarchist workshop's command-line interface. We call it `taw`.
 
 Since we're in prototype mode, the suggested way to run it is to grab the code from github, and
 then you can build it and run it locally:
