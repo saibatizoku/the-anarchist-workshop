@@ -9,6 +9,13 @@ pub const CLI_APP_VERSION: &str = "v0.1.0";
 #[derive(Debug, StructOpt)]
 #[structopt(name = CLI_APP_NAME, version = CLI_APP_VERSION)]
 pub struct TheCliApp {
+    #[structopt(
+        short,
+        long,
+        help = "Sets verbosity.\n-v     ERROR\n-vv    WARN\n-vvv   INFO\n-vvvv  DEBUG\n-vvvvv TRACE",
+        parse(from_occurrences)
+    )]
+    verbose: u8,
     #[structopt(subcommand)]
     cmd: Option<TAWcommands>,
 }
