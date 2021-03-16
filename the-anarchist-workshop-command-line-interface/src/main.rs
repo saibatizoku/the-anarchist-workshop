@@ -88,10 +88,15 @@ pub fn main() {
     tracing::trace!("verbose level: {:?}", level);
     match cli.cmd {
         Some(cmd) => {
+            tracing::debug!("parsing cli command {:?}", cmd);
             match cmd {
                 TAWcommands::Commander => {
+                    let _commander = tracing::info_span!("commander").entered();
+                    tracing::trace!("terminal ui starting");
                     {
+                        let _span = tracing::info_span!("cursive tui").entered();
                         let mut siv = cursive::default();
+                        tracing::trace!("terminal controller acquired");
 
                         siv.add_layer(
                             Dialog::around(TextView::new("TAW"))
@@ -99,13 +104,16 @@ pub fn main() {
                                 .button("Salir", |s| s.quit()),
                         );
 
+                        tracing::trace!("terminal interface has been composed");
                         siv.run();
                     }
                 }
             }
         }
         None => {
+            tracing::error!("no subcommand was typed");
             println!("Type \"taw -h\" or \"taw --help\" to begin.")
         }
     }
+    tracing::info!("bye!");
 }
