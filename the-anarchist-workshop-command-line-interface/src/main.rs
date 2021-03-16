@@ -72,7 +72,20 @@ impl From<Verbosity> for LevelFilter {
 /// to stick to the main thread.
 pub fn main() {
     let cli = TheCliApp::from_args();
-    println!("{:?}", cli);
+    let verbosity: Verbosity = cli.verbose.into();
+    let level: LevelFilter = verbosity.into();
+
+    let (non_blocking, _guard) = tracing_appender::non_blocking(std::io::stdout());
+    let stdout_layer = tracing_subscriber::fmt::layer().with_writer(non_blocking);
+    let _registry = tracing_subscriber::registry()
+        .with(level)
+        .with(stdout_layer)
+        .init();
+
+    let _taw_span = tracing::info_span!("global").entered();
+    tracing::info!("taw!");
+    tracing::trace!("{:?}", cli);
+    tracing::trace!("verbose level: {:?}", level);
     match cli.cmd {
         Some(cmd) => {
             match cmd {
