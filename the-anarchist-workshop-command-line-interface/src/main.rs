@@ -1,6 +1,7 @@
 //! Command-line executable code for The Anarchist Workshop.
 use cursive::views::{Dialog, TextView};
 use structopt::StructOpt;
+use tracing_subscriber::{filter::LevelFilter, layer::SubscriberExt, prelude::*};
 //use the_anarchist_workshop::the_calendar::TheCalendar;
 
 pub const CLI_APP_NAME: &str = "taw";
@@ -27,6 +28,43 @@ pub enum TAWcommands {
         long_about = "Reminds me of the midnight commander, but less cool."
     )]
     Commander,
+}
+
+#[derive(Copy, Clone, Debug, StructOpt)]
+pub enum Verbosity {
+    None,
+    Error,
+    Warning,
+    Info,
+    Debug,
+    Trace,
+}
+
+impl From<u8> for Verbosity {
+    fn from(v: u8) -> Self {
+        match v {
+            0 => Verbosity::None,
+            1 => Verbosity::Error,
+            2 => Verbosity::Warning,
+            3 => Verbosity::Info,
+            4 => Verbosity::Debug,
+            _ => Verbosity::Trace,
+        }
+    }
+}
+
+impl From<Verbosity> for LevelFilter {
+    fn from(v: Verbosity) -> LevelFilter {
+        use Verbosity::*;
+        match v {
+            None => LevelFilter::OFF,
+            Error => LevelFilter::ERROR,
+            Warning => LevelFilter::WARN,
+            Info => LevelFilter::INFO,
+            Debug => LevelFilter::DEBUG,
+            Trace => LevelFilter::TRACE,
+        }
+    }
 }
 
 /// This is the function that gets executed when you type `taw` on your terminal.
