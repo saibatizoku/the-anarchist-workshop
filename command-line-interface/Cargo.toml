@@ -1,5 +1,5 @@
 [package]
-name = "taw-cli"
+name = "taw"
 version = "0.1.0"
 authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
 edition = "2018"
@@ -11,7 +11,6 @@ path = "./src/main.rs"
 
 [dependencies]
 structopt = { version = "0.3" }
-cursive = { version = "0.16" }
 the-anarchist-workshop = { path = "../" }
 tracing = "0.1.25"
 tracing-appender = "0.1"

@@ -1,5 +1,4 @@
 //! Command-line executable code for The Anarchist Workshop.
-use cursive::views::{Dialog, TextView};
 use structopt::StructOpt;
 use tracing_subscriber::{filter::LevelFilter, layer::SubscriberExt, prelude::*};
 //use the_anarchist_workshop::the_calendar::TheCalendar;
@@ -101,21 +100,7 @@ pub fn main() {
                 // Start the "commander" user-interface
                 TAWcommands::Commander => {
                     let _commander = tracing::info_span!("commander").entered();
-                    tracing::trace!("terminal ui starting");
-                    {
-                        let _span = tracing::info_span!("cursive tui").entered();
-                        let mut siv = cursive::default();
-                        tracing::trace!("terminal controller acquired");
-
-                        siv.add_layer(
-                            Dialog::around(TextView::new("TAW"))
-                                .title("The Anarchist's Workshop")
-                                .button("Salir", |s| s.quit()),
-                        );
-
-                        tracing::trace!("terminal interface has been composed");
-                        siv.run();
-                    }
+                    println!("The commander is not available at the moment.");
                 }
             }
         }
