@@ -75,6 +75,7 @@ pub fn main() {
     let verbosity: Verbosity = cli.verbose.into();
     let level: LevelFilter = verbosity.into();
 
+    // start tracing and pass it to stdout.
     let (non_blocking, _guard) = tracing_appender::non_blocking(std::io::stdout());
     let stdout_layer = tracing_subscriber::fmt::layer().with_writer(non_blocking);
     let _registry = tracing_subscriber::registry()
@@ -86,10 +87,18 @@ pub fn main() {
     tracing::info!("taw!");
     tracing::trace!("{:?}", cli);
     tracing::trace!("verbose level: {:?}", level);
+
+    // Parse the command-line.
     match cli.cmd {
+        None => {
+            tracing::error!("no subcommand was typed");
+            println!("Type \"taw -h\" or \"taw --help\" to begin.")
+        }
+        // Parse the command from the command-line.
         Some(cmd) => {
             tracing::debug!("parsing cli command {:?}", cmd);
             match cmd {
+                // Start the "commander" user-interface
                 TAWcommands::Commander => {
                     let _commander = tracing::info_span!("commander").entered();
                     tracing::trace!("terminal ui starting");
@@ -109,10 +118,6 @@ pub fn main() {
                     }
                 }
             }
-        }
-        None => {
-            tracing::error!("no subcommand was typed");
-            println!("Type \"taw -h\" or \"taw --help\" to begin.")
         }
     }
     tracing::info!("bye!");

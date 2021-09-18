@@ -2,7 +2,7 @@
 name = "the-anarchist-workshop"
 version = "0.1.0"
 authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
-description = "The Anarchist Workshop. This is a a bunch of code put together in order to run things at workshops, where people work and make stuff."
+description = "The Anarchist Workshop. This is a library filled with a bunch of code put together in order to run things at workshops, where people work and make stuff."
 edition = "2018"
 license = "MIT"
 
@@ -12,4 +12,4 @@ license = "MIT"
 chrono = { version = "0.4" }
 
 [workspace]
-members = ["the-anarchist-workshop-command-line-interface"]
+members = ["command-line-interface"]

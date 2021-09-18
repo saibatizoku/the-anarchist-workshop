@@ -1,5 +1,5 @@
 [package]
-name = "taw"
+name = "taw-cli"
 version = "0.1.0"
 authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
 edition = "2018"
