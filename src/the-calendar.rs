@@ -5,8 +5,8 @@
 //! Calendars are simple. Let's be the same way.
 //!
 //! At any given time, there can be many calendars around The Shop.
-use chrono::prelude::{Date, Datelike, TimeZone, Utc};
 use std::collections::HashMap;
+use time::{Date, Month, OffsetDateTime};
 
 /// The Calendar
 ///
@@ -29,7 +29,7 @@ where
 #[derive(Clone, Debug, PartialEq)]
 pub struct CalendarPost {
     /// The date this is posted on.
-    pub date: Date<Utc>,
+    pub date: Date,
     /// The text that is posted.
     pub text: String,
 }
@@ -37,11 +37,11 @@ pub struct CalendarPost {
 impl CalendarPost {
     /// Create a new calendar post with today's date.
     pub fn new(text: &str) -> Self {
-        CalendarPost::new_with_date(text, Utc::now().date())
+        CalendarPost::new_with_date(text, OffsetDateTime::now_utc().date())
     }
 
     /// Create a new calendar post with some date.
-    pub fn new_with_date(text: &str, date: Date<Utc>) -> Self {
+    pub fn new_with_date(text: &str, date: Date) -> Self {
         CalendarPost {
             date,
             text: text.to_string(),
@@ -49,8 +49,8 @@ impl CalendarPost {
     }
 
     /// Create a new calendar post with some `year`, `month`, and `day`.
-    pub fn new_with_ymd(text: &str, year: i32, month: u32, day: u32) -> Self {
-        CalendarPost::new_with_date(text, Utc.ymd(year, month, day))
+    pub fn new_with_ymd(text: &str, year: i32, month: Month, day: u8) -> Self {
+        CalendarPost::new_with_date(text, Date::from_calendar_date(year, month, day).unwrap())
     }
 }
 
@@ -70,11 +70,11 @@ impl std::fmt::Display for CalendarPost {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::Duration;
+    use time::Duration;
 
     const YEAR: i32 = 2000;
-    const MONTH: u32 = 3;
-    const DAY: u32 = 8;
+    const MONTH: Month = Month::March;
+    const DAY: u8 = 8;
     const POST_TEXT: &str = "Don't forget!";
     const POST_EXPECTED_DISPLAY: &str = "2000-03-08: Don't forget!";
 
@@ -100,12 +100,12 @@ mod tests {
     #[test]
     fn a_new_calendar_post_has_todays_date() {
         let post = CalendarPost::new("Remember to improve the calendar");
-        assert_eq!(post.date, Utc::now().date());
+        assert_eq!(post.date, OffsetDateTime::now_utc().date());
     }
 
     #[test]
     fn a_new_calendar_post_can_set_its_date() {
-        let some_date = Utc.ymd(YEAR, MONTH, DAY);
+        let some_date = Date::from_calendar_date(YEAR, MONTH, DAY).unwrap();
         let post = CalendarPost::new_with_date(POST_TEXT, some_date);
         assert_eq!(post.date, some_date);
     }
@@ -127,7 +127,7 @@ mod tests {
 
         // for a date that is 5 days from today, we build the expected
         // output by hand
-        let five_days_from_now = Utc::now().date() + Duration::days(5);
+        let five_days_from_now = OffsetDateTime::now_utc().date() + Duration::days(5);
         let (year, month, day) = (
             five_days_from_now.year(),
             five_days_from_now.month(),
@@ -162,14 +162,14 @@ mod tests {
     fn a_hash_map_of_dates_for_keys_and_a_vec_of_strings_for_values() {
         // we need to our KEY type to impl Default
         #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
-        struct DateKey(Date<Utc>);
+        struct DateKey(Date);
         impl Default for DateKey {
             fn default() -> Self {
-                DateKey(Utc::now().date())
+                DateKey(OffsetDateTime::now_utc().date())
             }
         }
-        let today = DateKey(Utc::now().date());
-        let five_days_from_now = DateKey(Utc::now().date() + Duration::days(5));
+        let today = DateKey(OffsetDateTime::now_utc().date());
+        let five_days_from_now = DateKey(OffsetDateTime::now_utc().date() + Duration::days(5));
 
         let mut collection: TheCalendar<DateKey, Vec<String>> = TheCalendar::default();
         // When someting is new, `insert` returns None
