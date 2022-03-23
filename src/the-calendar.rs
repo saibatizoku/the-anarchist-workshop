@@ -63,7 +63,7 @@ impl Default for CalendarPost {
 impl std::fmt::Display for CalendarPost {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let (year, month, day) = (self.date.year(), self.date.month(), self.date.day());
-        write!(f, "{}-{:0>2}-{:0>2}: {}", year, month, day, self.text)
+        write!(f, "{}-{:0>2}-{:0>2}: {}", year, month as u8, day, self.text)
     }
 }
 
@@ -134,7 +134,7 @@ mod tests {
             five_days_from_now.day(),
         );
         let post = CalendarPost::new_with_date("Calendar continues", five_days_from_now);
-        let expected = format!("{}-{:0>2}-{:0>2}: {}", year, month, day, post.text);
+        let expected = format!("{}-{:0>2}-{:0>2}: {}", year, month as u8, day, post.text);
         assert_eq!(format!("{}", post), expected);
     }
 
