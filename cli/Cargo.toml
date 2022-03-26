@@ -1,5 +1,6 @@
 [package]
-name = "taw"
+name = "taw-cli"
+description = "Command-line interface for The Anarchist Workshop."
 version = "0.1.0"
 authors = ["Joaquín Rosales G. <casabenita7@gmail.com>"]
 edition = "2018"

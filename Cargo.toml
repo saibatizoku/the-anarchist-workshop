@@ -12,4 +12,4 @@ license = "MIT"
 time = "0.3.7"
 
 [workspace]
-members = ["command-line-interface"]
+members = ["cli"]
